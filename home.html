@@ -144,9 +144,10 @@
             margin-bottom: 5px;
         }
 
+        /* Ajuste estructural optimizado para Video.js dentro del wrapper */
         .player-wrapper .video-js,
         .player-wrapper iframe,
-        .player-wrapper div {
+        .player-wrapper div#main-player {
             position: absolute;
             top: 0;
             left: 0;
@@ -1006,7 +1007,6 @@
                 <h3 class="modal-subtitulo" id="epg-modal-time" style="color: var(--accent-color);">00:00 - 00:00</h3>
                 <p class="modal-parrafo" id="epg-modal-desc" style="text-align: center;">Detalles del evento.</p>
                 <div class="modal-zona-botones">
-                    <!-- BOTÓN DINÁMICO E INDEPENDIENTE PARA CADA EVENTO -->
                     <a id="epg-modal-link-btn" href="#" target="_blank" class="modal-btn-accion btn-primario" style="text-decoration: none; text-align: center; display: block;">Ver Transmisión</a>
                     <button class="modal-btn-accion btn-secundario" onclick="cerrarModalEPG()">Cerrar</button>
                 </div>
@@ -1251,9 +1251,7 @@
             }
         ];
 
-        // --- BASE DE DATOS EPG CON URLS Y TEXTOS INDEPENDIENTES PARA CADA BOTÓN ---
         const baseDeDatosEPG = {
-            // --- SIN USAR ---
             "2026-07-25": [
                 { 
                     titulo: "🥊 La Velada del Año 6", 
@@ -1264,8 +1262,6 @@
                     textoBoton: "🟣 Ver en Twitch" 
                 }
             ],
-
-            // --- EN USO ---
             "2026-11-01": [
                 { 
                     titulo: "🛠️ Señal de Prueba", 
@@ -1286,7 +1282,6 @@
                     textoBoton: "🔴 Ver en YouTube" 
                 }
             ],
-            
             "2026-12-31": [
                 { 
                     titulo: "✨🥂🎊🎆 Times Square New Year´s Eve 2027", 
@@ -1408,7 +1403,6 @@
             timeline.innerHTML = '';
             row.innerHTML = '';
 
-            // Limpiar intervalo anterior si existe para evitar duplicados
             if (intervaloAgujaTiempo) {
                 clearInterval(intervaloAgujaTiempo);
                 intervaloAgujaTiempo = null;
@@ -1476,7 +1470,6 @@
 
                 actualizarPosicionAguja(forzarScroll);
 
-                // Actualizar la aguja de tiempo cada 30 segundos de forma fluida
                 intervaloAgujaTiempo = setInterval(() => {
                     actualizarPosicionAguja(false);
                 }, 30000);
@@ -1587,7 +1580,7 @@
             var seleccion = (activos.length === 1) ? activos[0] : listaReproductores[0];
 
             if (seleccion.tipo === 'vjs') {
-                wrapper.innerHTML = `<video id="main-player" class="video-js vjs-default-skin vjs-big-play-centered" poster="img/Poster-Ledesmita-TV.png" controls preload="auto" width="640" height="360">Tu dispositivo no soporta este formato de video.</video>`;
+                wrapper.innerHTML = `<video id="main-player" class="video-js vjs-default-skin vjs-big-play-centered" poster="img/Poster-Ledesmita-TV.png" controls preload="auto">Tu dispositivo no soporta este formato de video.</video>`;
                 player = videojs('main-player');
                 player.src({ type: 'application/x-mpegURL', src: seleccion.url });
                 player.play();
