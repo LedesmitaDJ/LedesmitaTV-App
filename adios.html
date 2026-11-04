@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ledesmita TV - Hasta Pronto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at center, #0d1b2a 0%, #010811 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .despedida-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 180, 216, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 119, 182, 0.15);
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        /* --- LOGO O ICONO --- */
+        .logo-despedida {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #0077b6, #00b4d8);
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            box-shadow: 0 0 20px rgba(0, 180, 216, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-despedida img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0077b6, #00b4d8);
+            box-shadow: 0 0 20px rgba(0, 180, 216, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- TEXTOS --- */
+        h1 {
+            font-family: "Audiowide", sans-serif;
+            font-size: 2.2rem;
+            color: #00b4d8;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(0, 180, 216, 0.2);
+        }
+
+        .subtitulo {
+            font-size: 1.1rem;
+            color: #90e0ef;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .mensaje {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #e2eafc;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .atte {
+            font-size: 1.05rem;
+            font-style: italic;
+            line-height: 1.7;
+            color: #e2eafc;
+            text-align: right;
+        }
+
+        /* --- SEPARADOR ESTÉTICO --- */
+        .separador {
+            height: 2px;
+            width: 240px;
+            background: linear-gradient(90deg, transparent, #00b4d8, transparent);
+            margin: 0 auto 30px;
+        }
+
+        /* --- MENSAJE DE ESPERANZA --- */
+        .hasta-pronto {
+            font-size: 1.2rem;
+            color: #ffb703;
+            /* Un toque cálido para resaltar */
+            font-weight: bold;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* --- ANIMACIÓN DE ENTRADA --- */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- AJUSTES RESPONSIVOS (MÓVILES) --- */
+        @media (max-width: 480px) {
+            .despedida-container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .subtitulo {
+                font-size: 0.95rem;
+                letter-spacing: 1px;
+            }
+
+            .mensaje {
+                font-size: 0.95rem;
+                text-align: center;
+                /* Se lee mejor centrado en pantallas pequeñas */
+            }
+
+            .atte {
+                font-size: 0.95rem;
+                text-align: right;
+                /* Se lee mejor centrado en pantallas pequeñas */
+            }
+
+            .logo-despedida {
+                width: 80px;
+                height: 80px;
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="despedida-container">
+        <div class="logo-despedida"><img src="img/logo-ledesmita-tv.png" alt="Logo"></div>
+
+        <h1>Ledesmita TV</h1>
+        <div class="subtitulo">Comunicado</div>
+
+        <div class="separador"></div>
+
+        <p class="mensaje">
+            A toda nuestra comunidad, seguidores y espectadores: queremos informarles que el proyecto <strong>Ledesmita
+                TV</strong> ha llegado a su fin. Ha sido una etapa increíble llena de aprendizajes, transmisiones y
+            entretenimiento en vivo, pero es momento de cerrar este proyecto y enfocarnos en nuevas metas profesionales.
+        </p>
+
+        <p class="mensaje">
+            Agradecemos de corazón cada minuto que compartieron con nosotros, su sintonía y su apoyo constante en cada
+            transmisión.
+        </p>
+
+        <div class="hasta-pronto">
+            🎬 ¡Muchas gracias por todo y tal vez nos volvamos a ver en otra ocasión!
+        </div>
+
+        <div class="atte">
+            Atte.: <strong>Ledesmita TV</strong>
+        </div>
+    </div>
+
+</body>
+
+</html>
