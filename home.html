@@ -132,6 +132,44 @@
             padding: 15px;
         }
 
+        /* --- BARRA DE SELECCIÓN DE REPRODUCTOR --- */
+        .player-selector-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .player-toggle-btn {
+            flex: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .player-toggle-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--text-main);
+        }
+
+        .player-toggle-btn.active {
+            background: var(--accent-gradient);
+            color: #000;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
+        }
+
         .player-wrapper {
             position: relative;
             width: 100%;
@@ -144,7 +182,6 @@
             margin-bottom: 5px;
         }
 
-        /* Ajuste estructural optimizado para Video.js dentro del wrapper */
         .player-wrapper .video-js,
         .player-wrapper iframe,
         .player-wrapper div#main-player {
@@ -1071,6 +1108,16 @@
             data-code="ledesmitatv26">
         </div>
 
+        <!-- BOTONES PARA CAMBIAR ENTRE REPRODUCTOR VJS Y KICK -->
+        <div class="player-selector-bar">
+            <button class="player-toggle-btn active" id="btnVjsPlayer" onclick="cambiarTipoReproductor('vjs')">
+                <i class="ri-tv-line"></i> Señal Privada
+            </button>
+            <button class="player-toggle-btn" id="btnKickPlayer" onclick="cambiarTipoReproductor('kick')">
+                <i class="ri-live-line"></i> Señal Kick
+            </button>
+        </div>
+
         <div class="stream-meta">
             <h2 id="playing-title">Señal Principal</h2>
             <span id="playing-subtitle" class="stream-subtitle">Solo eventos (No 24/7)</span>
@@ -1232,12 +1279,12 @@
             {
                 tipo: "vjs",
                 url: "https://live20.bozztv.com/akamaissh101/ssh101/ledesmitatv/playlist.m3u8",
-                activo: false
+                activo: true
             },
             {
                 tipo: "kick",
                 url: "ledesmitatv",
-                activo: true
+                activo: false
             },
             {
                 tipo: "youtube",
@@ -1252,6 +1299,7 @@
         ];
 
         const baseDeDatosEPG = {
+            // Sin usar
             "2026-07-25": [
                 { 
                     titulo: "🥊 La Velada del Año 6", 
@@ -1272,14 +1320,16 @@
                     textoBoton: "🟢 Ver en Kick"
                 }
             ],
-            "2026-11-13": [
+
+            //Usando
+            "2026-11-17": [
                 { 
-                    titulo: "⚽ Colombia Vs Chile (Amistoso Internacional)", 
-                    inicio: "19:00", 
-                    fin: "21:00", 
-                    descripcion: "Análisis técnico y alineaciones previas al partido.",
-                    urlBoton: "https://www.youtube.com/watch?v=jfKfPfyJRdk",
-                    textoBoton: "🔴 Ver en YouTube" 
+                    titulo: "⚽ Chile Vs Colombia (Amistoso Internacional)", 
+                    inicio: "18:00", 
+                    fin: "20:00", 
+                    descripcion: "Chile y Colombia cerrarán su actividad del 2026 con un partido amistoso el martes 17 de noviembre a las 6:00 p. m. (hora de Colombia) en el Estadio Nacional de Santiago, donde el equipo local buscará revancha tras caer 1-0 en Cali días atrás.",
+                    urlBoton: "go:LTV",
+                    textoBoton: "▶️ Ver en Señal Privada" 
                 }
             ],
             "2026-12-31": [
@@ -1288,8 +1338,8 @@
                     inicio: "16:00", 
                     fin: "23:59", 
                     descripcion: "Celebración de fin de año desde Nueva York.",
-                    urlBoton: "https://www.youtube.com/",
-                    textoBoton: "▶️ Ver Transmisión NY" 
+                    urlBoton: "https://kick.com/ledesmitatv",
+                    textoBoton: "🟢 Ver en Kick" 
                 }
             ],
             "2027-01-01": [
@@ -1298,8 +1348,8 @@
                     inicio: "00:00", 
                     fin: "00:30", 
                     descripcion: "Recibimiento oficial del nuevo año.",
-                    urlBoton: "https://www.youtube.com/",
-                    textoBoton: "▶️ Ver Transmisión NY" 
+                    urlBoton: "https://kick.com/ledesmitatv",
+                    textoBoton: "🟢 Ver en Kick" 
                 }
             ],
         };
@@ -1597,6 +1647,49 @@
             return seleccion;
         }
 
+        /* --- FUNCIÓN PARA CAMBIAR DESDE LOS NUEVOS BOTONES --- */
+        function cambiarTipoReproductor(tipo) {
+            listaReproductores.forEach(function(r) {
+                r.activo = (r.tipo === tipo);
+            });
+
+            // Actualizar clases activas en los botones
+            var btnVjs = document.getElementById('btnVjsPlayer');
+            var btnKick = document.getElementById('btnKickPlayer');
+
+            if (tipo === 'vjs') {
+                btnVjs.classList.add('active');
+                btnKick.classList.remove('active');
+            } else {
+                btnKick.classList.add('active');
+                btnVjs.classList.remove('active');
+            }
+
+            // Recargar el reproductor activo
+            var fuenteElegida = cargarReproductorSeleccionado();
+            actualizarIndicadorEstado(fuenteElegida);
+        }
+
+        function actualizarIndicadorEstado(fuenteElegida) {
+            var indicator = document.getElementById('live-indicator');
+            if (!indicator) return;
+
+            if (fuenteElegida.tipo === 'vjs') {
+                checkStreamStatus(fuenteElegida.url, function (isOnline) {
+                    if (isOnline) {
+                        indicator.innerText = "● EN VIVO";
+                        indicator.className = "badge badge-live";
+                    } else {
+                        indicator.innerText = "● SIN SEÑAL";
+                        indicator.className = "badge badge-offline";
+                    }
+                });
+            } else {
+                indicator.innerText = "● EN VIVO";
+                indicator.className = "badge badge-live";
+            }
+        }
+
         function checkStreamStatus(url, callback) {
             fetch(url, { method: 'HEAD', mode: 'cors' })
                 .then(function (response) {
@@ -1639,7 +1732,7 @@
                             localStorage.setItem('unlockedVipSections', JSON.stringify(unlockedSections));
                         }
 
-                        showModalMessage("¡Desbloqueado con éxito!", "#39d353");
+                        showModalMessage("¡Desbloqueado com éxito!", "#39d353");
                         inputField.value = "";
 
                         setTimeout(function () {
@@ -1788,27 +1881,7 @@
             showSlides();
             iniciarCuentaRegresiva();
             var fuenteElegida = cargarReproductorSeleccionado();
-
-            if (fuenteElegida.tipo === 'vjs') {
-                checkStreamStatus(fuenteElegida.url, function (isOnline) {
-                    var indicator = document.getElementById('live-indicator');
-                    if (indicator) {
-                        if (isOnline) {
-                            indicator.innerText = "● EN VIVO";
-                            indicator.className = "badge badge-live";
-                        } else {
-                            indicator.innerText = "● SIN SEÑAL";
-                            indicator.className = "badge badge-offline";
-                        }
-                    }
-                });
-            } else {
-                var indicator = document.getElementById('live-indicator');
-                if (indicator) {
-                    indicator.innerText = "● EN VIVO";
-                    indicator.className = "badge badge-live";
-                }
-            }
+            actualizarIndicadorEstado(fuenteElegida);
         };
     </script>
 </body>
